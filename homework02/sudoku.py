@@ -146,10 +146,10 @@ def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
     b = 81 - N
     while b > 0:
         x = random.randint(0, 8)
-    y = random.randint(0, 8)
-    if c[y][x] != '.':
-        c[y][x] = '.'
-    b -= 1
+        y = random.randint(0, 8)
+        if c[y][x] != '.':
+            c[y][x] = '.'
+            b -= 1
     return c
 
 
