@@ -93,7 +93,7 @@ def find_possible_values(grid: tp.List[tp.List[str]], pos: tp.Tuple[int, int]) -
     a = set(get_row(grid, pos))
     a.update(set(get_col(grid, pos)))
     a.update(set(get_block(grid, pos)))
-    return list(v - a)
+    return (v - a)
 
 
 def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
@@ -117,6 +117,8 @@ def solve(grid: tp.List[tp.List[str]]) -> tp.Optional[tp.List[tp.List[str]]]:
 
 
 def check_solution(solution: tp.List[tp.List[str]]) -> bool:
+    if find_empty_positions(solution):
+        return False
     for i in range(9):
         a = get_row(solution, (i, 0))
         b = get_col(solution, (0, i))
@@ -127,30 +129,28 @@ def check_solution(solution: tp.List[tp.List[str]]) -> bool:
             return False
     return True
 
+import random
 
 def generate_sudoku(N: int) -> tp.List[tp.List[str]]:
-    """Генерация судоку заполненного на N элементов
-
-    >>> grid = generate_sudoku(40)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    41
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(1000)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    0
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    >>> grid = generate_sudoku(0)
-    >>> sum(1 for row in grid for e in row if e == '.')
-    81
-    >>> solution = solve(grid)
-    >>> check_solution(solution)
-    True
-    """
-    pass
+    c = [['1', '2', '3', '4', '5', '6', '7', '8', '9'],
+         ['4', '5', '6', '7', '8', '9', '1', '2', '3'],
+         ['7', '8', '9', '1', '2', '3', '4', '5', '6'],
+         ['2', '3', '4', '5', '6', '7', '8', '9', '1'],
+         ['5', '6', '7', '8', '9', '1', '2', '3', '4'],
+         ['8', '9', '1', '2', '3', '4', '5', '6', '7'],
+         ['3', '4', '5', '6', '7', '8', '9', '1', '2'],
+         ['6', '7', '8', '9', '1', '2', '3', '4', '5'],
+         ['9', '1', '2', '3', '4', '5', '6', '7', '8']]
+    if N >= 81:
+        N = 81
+    b = 81 - N
+    while b > 0:
+        x = random.randint(0, 8)
+    y = random.randint(0, 8)
+    if c[y][x] != '.':
+        c[y][x] = '.'
+    b -= 1
+    return c
 
 
 if __name__ == "__main__":
